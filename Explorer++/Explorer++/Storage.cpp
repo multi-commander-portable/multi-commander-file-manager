@@ -1,0 +1,29 @@
+// Copyright (C) Explorer++ Project
+// SPDX-License-Identifier: GPL-3.0-only
+// See LICENSE in the top level directory
+
+#include "stdafx.h"
+#include "Storage.h"
+#include "../Helper/Helper.h"
+#include "../Helper/ProcessHelper.h"
+#include <filesystem>
+
+namespace Storage
+{
+
+std::wstring GetConfigFilePath()
+{
+	auto configPath = GetExpandedEnvironmentVariable(CONFIG_FILE_ENV_VAR_NAME);
+
+	if (configPath)
+	{
+		return *configPath;
+	}
+
+	std::filesystem::path configFilePath(GetCurrentProcessPath());
+	configFilePath.replace_filename(CONFIG_FILE_FILENAME);
+
+	return configFilePath.wstring();
+}
+
+}
